@@ -11,9 +11,9 @@ main:
 
 # Test function to compare actual and expected result
 test:
-    addi sp, sp, -16        # Reserve stack space
-    sw ra, 12(sp)           # Save return address
-    sw t0, 8(sp)            # Save temp register
+    addi sp, sp, -8        # Reserve stack space
+    sw ra, 4(sp)           # Save return address
+    sw t0, 0(sp)            # Save temp register
 
     # Test case: fp16_to_fp32
     li a0, 0x3C00           # Load test value
@@ -41,9 +41,9 @@ fail:
     li a0, 0                # Return false (0)
 
 end_test:
-    lw ra, 12(sp)           # Restore return address
-    lw t0, 8(sp)            # Restore temp register
-    addi sp, sp, 16         # Restore stack space
+    lw t0, 0(sp)            # Restore temp register
+    lw ra, 4(sp)           # Restore return address
+    addi sp, sp, 8         # Restore stack space
     ret
 
 fabsf:
@@ -57,7 +57,7 @@ fabsf:
     lw s0, 0(sp)          
     lw ra, 4(sp)     
     addi sp, sp, 8   
-    ret            
+    ret   
 
 fp16_to_fp32:
     addi sp, sp, -32     
@@ -114,14 +114,15 @@ continue:
     or s3, s3, s2
     mv a0, s3
     
-    lw ra, 28(sp)         
-    lw s0, 24(sp)         
-    lw s1, 20(sp)
-    lw s2, 16(sp)
-    lw s3, 12(sp)
-    lw s4, 8(sp)          
-    lw s5, 4(sp)
     lw s6, 0(sp)         
+    lw s5, 4(sp)
+    lw s4, 8(sp)          
+    lw s3, 12(sp)
+    lw s2, 16(sp)
+    lw s1, 20(sp)
+    lw s0, 24(sp)         
+    lw ra, 28(sp)
+           
     addi sp, sp, 32
     ret
     
@@ -155,11 +156,11 @@ loop:
 
 done:
     mv a0, s1            
-    lw ra, 20(sp)    
-    lw s0, 16(sp)     
-    lw s1, 12(sp)
-    lw s2, 8(sp)
+    lw s4, 0(sp)  
     lw s3, 4(sp)
-    lw s4, 0(sp)      
+    lw s2, 8(sp)
+    lw s1, 12(sp)
+    lw s0, 16(sp)     
+    lw ra, 20(sp)
     addi sp, sp, 24  
     ret
